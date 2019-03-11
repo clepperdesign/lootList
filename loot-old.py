@@ -1,3 +1,4 @@
+### Old version of the file, retained for record purposes ###
 # player characters
 dicta= {'name': 'A','gold': 5}
 dictb= {'name':'B','gold': 10}
