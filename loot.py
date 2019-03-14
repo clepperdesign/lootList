@@ -10,30 +10,42 @@ def getplayer():
                 for k,v in item.items():
                         if k == 'name':
                                 nameList.append(v)
-        print('Your players are: ' )
-        print(nameList)
+        #updates player inventor file, saving changes
+        def updatelist():
+                f = open('players.txt', 'w')
+                for item in playerList:
+                        f.write(str(item)+'\n') #allows dictionaries to be written to file properly
+                f.close()
         #interactive function that allows player selection and inventory updating
         def playerselect():    
                 #defines subprogram rerun functions
                 def giveagain():
-                        doAgain = str.lower(input("Give anything else to this player?\n"))
+                        doAgain = str.lower(input("Give anything else to this player? Y or N \n"))
                         if doAgain == 'yes' or doAgain == 'y':
                                 giveplayer()
                         else:
                                 print('Ending item giving program\n')
                 def selectagain():
-                        newname = str.lower(input("Select another player?\n"))
+                        newname = str.lower(input("Select another player? Y or N \n"))
                         if newname == 'yes' or newname =='y':
                                 playerselect()
                         else:
                                 print('Ending player selection program\n')
                 def takeagain():
-                        takemore = str.lower(input("Remove any other items from this player?\n"))
+                        takemore = str.lower(input("Remove any other items from this player? Y or N\n"))
                         if takemore == 'yes' or takemore == 'y':
                                 takethaway()
                         else:
                                 print('Ending item removal program\n')
-                #begin playerselect main program                
+                def updateagain():
+                        updatemore = str.lower(input("Update any other items? Y or N \n"))
+                        if updatemore == 'y' or updatemore == 'yes':
+                                updateitems()
+                        else:
+                                print('Ending item update program \n')
+                #begin playerselect main program
+                print('Your players are: ' )
+                print(nameList)
                 askName= str.lower(input('Select a player \n'))
                 if askName in nameList:
                         print('You have selected player ' + askName + '.')
@@ -41,15 +53,16 @@ def getplayer():
                         print("Player not found.\n")
                         getplayer()
                 #begin item distribution program
-                giveany = str.lower(input('Give items to ' + askName + '?\n'))
+                giveany = str.lower(input('Give items to ' + askName + '? Y or N\n'))
                 def giveplayer():
                                 if giveany == 'y' or giveany == 'yes': 
-                                        togive = str.lower(input('What do you want to give this player? \n'))
                                         try:
                                                 #select player's inventory dictionary
                                                 for item in playerList:
                                                         for k,v in item.items():
                                                                 if askName == v:
+                                                                        print(item)
+                                                                        togive = str.lower(input('What do you want to give this player? \n'))
                                                                         #check if item is already in inventory
                                                                         if togive in item:
                                                                                 if togive == 'name':
@@ -58,7 +71,6 @@ def getplayer():
                                                                                 else:
                                                                                         givequant = int(input('How many ' + togive + ' do you want to give ' + askName +'?\n'))
                                                                                         tgvalue = int(item.get(togive))
-                                                                                        print(tgvalue)
                                                                                         item[togive] = givequant + tgvalue
                                                                                         print(item)
                                                                                         break
@@ -74,7 +86,31 @@ def getplayer():
                                         giveagain()
                                 else:
                                         print('ending item giving program\n')
-                #begin item removal program
+                giveplayer()
+                #begin item update program
+                updateany = str.lower(input('Update quantity of items? Y or N \n'))
+                def updateitems():
+                        if updateany == 'y' or updateany == 'yes':
+                                for item in playerList:
+                                        for k, v in item.items():
+                                                if askName == v:
+                                                        print(item)
+                                                        toupdate = str.lower(input('Which item do you want to update? \n'))
+                                                        if toupdate in item:
+                                                                if toupdate == 'name':
+                                                                        print('No! Anything but that!')
+                                                                        break
+                                                                else:
+                                                                        newquant = int(input('How many ' + toupdate + ' should ' + askName + ' have? \n'))
+                                                                        item[toupdate] = newquant
+                                                                        print(item)
+                                                                        break
+                                updateagain()
+                        else:
+                                print('Exiting item update program \n')
+                updateitems()
+                #begin item removal program                               
+                toremove = str.lower(input('Remove items from inventory? Y or N\n'))
                 def takethaway():
                         if toremove == 'y' or toremove == 'yes':
                                 removeit = str.lower(input('Which item to remove?\n'))
@@ -88,19 +124,8 @@ def getplayer():
                                 takeagain()
                         else:
                                 print('Exiting item removal program\n')
-
-                        
-                                                               
-                giveplayer()
-                toremove = str.lower(input('Remove items from inventory?\n'))
                 takethaway()
                 selectagain()
         playerselect()
-        #updates player inventor file, saving changes
-        def updatelist():
-                f = open('players.txt', 'w')
-                for item in playerList:
-                        f.write(str(item)+'\n') #allows dictionaries to be written to file properly
-                f.close()
         updatelist()
 getplayer()
