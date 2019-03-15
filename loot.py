@@ -3,7 +3,7 @@ def getplayer():
         playerList = []
         with open('players.txt','r') as inf:
             for line in inf:
-                        playerList.append(eval(line))  
+                        playerList.append(eval((line),{"__builtins__":None},{})) 
         #makes a list of just player's names
         nameList = []
         for item in playerList:
@@ -79,7 +79,6 @@ def getplayer():
                                                                                 item[togive] = givequant
                                                                                 print(item)
                                                                                 break
-                                
                                         except:
                                                 print('invalid quantity\n')
                                                 giveplayer()
