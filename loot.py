@@ -117,9 +117,13 @@ def getplayer():
                                         for k,v in item.items():
                                                 if askName == v: #remove items only from chosen player's inventory
                                                         if removeit in item:
-                                                                item.pop(removeit)
-                                                                print(item)
-                                                                break
+                                                                if removeit== 'name':
+                                                                        print('No! Anything but that!')
+                                                                        break
+                                                                else:
+                                                                        item.pop(removeit)
+                                                                        print(item)
+                                                                        break
                                 takeagain()
                         else:
                                 print('Exiting item removal program\n')
